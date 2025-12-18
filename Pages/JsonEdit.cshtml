@@ -1,0 +1,48 @@
+﻿@page
+@using System.Text.Json
+@model QuickJsonEdit.Pages.JsonEditModel
+@{
+}
+<div class="container">
+    <h1><a href="/">@Model.Config.JsonFilename</a></h1>
+    <form id="key-form">
+        <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
+        <div id="key-error" class="error-message">Please select a key from the list.</div>
+    </form>
+    <datalist id="keys">
+        @foreach (var k in Model.Config.JsonDocument.AsObject().AsEnumerable())
+        {
+            <option value="@k.Key">@k.Key</option>
+        }
+    </datalist>
+    @if (Model.Key != null)
+    {
+        var element = Model.Config.JsonDocument[Model.Key];
+        if (element?.GetValueKind() == JsonValueKind.String)
+        {
+            <h2>@Model.Key</h2>
+            <form method="post" asp-page-handler="SaveNewValue">
+                <input type="hidden" name="newKey" value="@Model.Key" />
+                <textarea name="newValue">@(element.GetValue<string>())</textarea>
+                <button type="submit">Save</button>
+            </form>
+            <!-- create form to change the Value   -->
+        } else
+        {
+            <h2>@Model.Key</h2>
+            <form method="post" asp-page-handler="SaveNewValue">
+                <input type="text" name="newKey" value="@Model.Key" />
+                <textarea name="newValue"></textarea>
+                <button type="submit">Save</button>
+            </form>
+        }
+    }
+
+
+    <h2>Updated file:</h2>
+    <textarea id="new-json-document">@(Model.Config.JsonDocument)</textarea>
+    <button id="save-file">Download</button>
+</div>
+<div class="saved">
+    Saved @Model.Key into state, download the new file to use it
+</div>

@@ -1,0 +1,11 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form asp-page-handler="GotoEdit" method="post" enctype="multipart/form-data">
+   <label>Choose Json File
+   <input type="file" name="file" width="80%" required/></label>
+   <button>Goto Edit</button>
+</form>
