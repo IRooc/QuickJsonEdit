@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     });
 
-    if (document.location.search.endsWith('&Saved=True')) {
-        const newUrl = document.location.href.replace('&Saved=True', '')
+    if (document.location.search.endsWith('Saved=True')) {
+        const newUrl = document.location.href.replace(/[\?&]Saved=True/, '')
         window.history.pushState(null, "Updated", newUrl);
         document.querySelector('.saved').classList.add('show');
         setTimeout(() => {

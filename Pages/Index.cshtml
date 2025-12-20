@@ -4,8 +4,8 @@
     ViewData["Title"] = "Home page";
 }
 
-<form asp-page-handler="GotoEdit" method="post" enctype="multipart/form-data">
+<form asp-page-handler="GotoEdit" method="post">
    <label>Choose Json File
-   <input type="file" name="file" width="80%" required/></label>
+   <input type="text" name="file" required value="@Model.Config.JsonFilename"/></label>
    <button>Goto Edit</button>
 </form>

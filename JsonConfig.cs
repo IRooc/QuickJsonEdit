@@ -8,13 +8,13 @@ namespace QuickJsonEdit
         public string JsonFilename {get; set;}
         public JsonNode JsonDocument { get; set; }
 
-        public void SetJson(string f, Stream fileContent)
+        public void SetJson(string f)
         {
             JsonFilename = f;
-
-            var reader = new StreamReader(fileContent);
+            using var s = File.OpenRead(f);
+            using var reader = new StreamReader(s);
             string fileBody = reader.ReadToEnd();
-            JsonDocument = JsonNode.Parse(fileBody);
+            JsonDocument = JsonNode.Parse(fileBody ?? "{}")!;
 
         }
     }

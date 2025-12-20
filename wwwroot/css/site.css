@@ -34,7 +34,7 @@ textarea {
     position: fixed;
     padding: 2rem 5rem;
     border: 1px solid black;
-    background: white;
+    background-color: lightgoldenrodyellow;
     margin: auto;
     top: 15vh;
     opacity: 0;

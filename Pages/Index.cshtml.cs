@@ -18,15 +18,13 @@ public class IndexModel : PageModel
     }
     public IActionResult OnPostGotoEdit()
     {
-        var f = Request.Form.Files["file"];
-        if (Path.GetExtension(f.FileName) != ".json")
+        var f = Request.Form["file"];
+        if (Path.GetExtension(f) != ".json")
         {
             ModelState.AddModelError("file", "Only .json files are supported.");
             return Page();
         }
-        var fileContent = f.OpenReadStream();
-
-        Config.SetJson(f.FileName, fileContent);
+        Config.SetJson(f);
         return RedirectToPage("JsonEdit");
     }
 }

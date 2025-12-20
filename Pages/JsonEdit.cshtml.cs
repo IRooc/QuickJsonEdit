@@ -25,5 +25,11 @@ namespace QuickJsonEdit.Pages
             Config.JsonDocument[k] = v.ToString();
             return RedirectToPage(new { Key = k, Saved = true });
         }
+
+        public IActionResult OnPostSaveFile()
+        {
+            System.IO.File.WriteAllText(Config.JsonFilename, Config.JsonDocument.ToString());
+            return RedirectToPage(new { Saved = true });
+        }
     }
 }

@@ -40,8 +40,12 @@
 
 
     <h2>Updated file:</h2>
-    <textarea id="new-json-document">@(Model.Config.JsonDocument)</textarea>
+    <form asp-page-handler="SaveFile" method="post">
+        <textarea id="new-json-document">@(Model.Config.JsonDocument)</textarea>
+        <button type="submit">Save</button>
+    </form>
     <button id="save-file">Download</button>
+
 </div>
 <div class="saved">
     Saved @Model.Key into state, download the new file to use it
