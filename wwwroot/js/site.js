@@ -1,7 +1,3 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
 document.addEventListener('DOMContentLoaded', () => {
     const saveFile = document.getElementById('save-file');
 
@@ -27,7 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.saved').classList.remove('show');
         }, 3000);
     }
-	
+
+
+    if (document.location.search.startsWith('?key=')) {
+        const textarea = document.querySelector('textarea[name="newValue"]');
+        if (textarea) {
+            textarea.focus();
+            // Set cursor to the end of the content
+            const length = textarea.value.length;
+            textarea.setSelectionRange(length, length);
+        }
+    }
+
 	setupCustomDropdown();
 });
 

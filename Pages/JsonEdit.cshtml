@@ -73,7 +73,7 @@
 
     <h2>Updated file:</h2>
     <form asp-page-handler="SaveFile" method="post">
-        <textarea id="new-json-document">@(Model.Config.JsonDocument)</textarea>
+        <textarea id="new-json-document" class="textarea-high">@(Model.Config.JsonDocument)</textarea>
         <div class="button-row">
             <button type="submit">Save</button>
             <button id="save-file" type="button" class="btn-secondary">Download</button>

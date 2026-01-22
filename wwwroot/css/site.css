@@ -80,6 +80,10 @@ textarea {
     padding: var(--padding-sm-vertical) var(--padding-sm-horizontal);
 }
 
+textarea.textarea-high {
+    height: 12rem;
+}
+
 .saved {
     position: fixed;
     padding: 2rem 5rem;
