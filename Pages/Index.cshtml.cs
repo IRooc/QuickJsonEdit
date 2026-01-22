@@ -5,16 +5,16 @@ namespace QuickJsonEdit.Pages;
 
 public class IndexModel : PageModel
 {
+    public JsonConfig Config { get; }
+    [BindProperty(SupportsGet = true)]
+    public string FolderPath { get; set; }
+    public List<string> JsonFiles { get; set; }
+
     public IndexModel(JsonConfig config)
     {
         this.Config = config;
         this.JsonFiles = new List<string>();
     }
-
-    public JsonConfig Config { get; }
-    [BindProperty(SupportsGet = true)]
-    public string FolderPath { get; set; }
-    public List<string> JsonFiles { get; set; }
 
     public void OnGet()
     {
