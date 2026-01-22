@@ -6,6 +6,7 @@
 }
 <div class="container">
     <h1><a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))">@Model.Config.JsonFilename</a></h1>
+    <p>Tip: Select a key or nested path from the dropdown below. For array elements, use the notation <code>[index]</code> to specify the item index (zero-based). For example: <code>testarray/[1]/abd</code>.</p>
     <form id="key-form">
         <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
         <div id="key-error" class="error-message">Please select a key from the list.</div>
@@ -16,7 +17,7 @@
     Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
     if (paths.Count > 0)
     {
-        foreach (var p in paths)
+        foreach (var p in paths.OrderBy(p => p))
         {
             <option value="@p">@p</option>
         }
