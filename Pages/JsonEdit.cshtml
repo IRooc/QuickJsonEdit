@@ -4,8 +4,15 @@
 @model QuickJsonEdit.Pages.JsonEditModel
 @{
 }
-<div class="container">
-    <h1><a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))">@Model.Config.JsonFilename</a></h1>
+<div class="edit-container">
+    <h1>
+        <a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))" aria-label="back" class="back-button" style="margin-right: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 4px;">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+        </a>
+        @Model.Config.JsonFilename
+    </h1>
     <p>Tip: Select a key or nested path from the dropdown below. For array elements, use the notation <code>[index]</code> to specify the item index (zero-based). For example: <code>testarray/[1]/abd</code>.</p>
     <form id="key-form">
         <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
