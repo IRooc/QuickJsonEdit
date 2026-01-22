@@ -1,19 +1,28 @@
-﻿@page
+@page
 @using System.Text.Json
+@using System.Text.Json.Nodes
 @model QuickJsonEdit.Pages.JsonEditModel
 @{
 }
 <div class="container">
-    <h1><a href="/">@Model.Config.JsonFilename</a></h1>
+    <h1><a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))">@Model.Config.JsonFilename</a></h1>
     <form id="key-form">
         <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
         <div id="key-error" class="error-message">Please select a key from the list.</div>
     </form>
     <datalist id="keys">
-        @foreach (var k in Model.Config.JsonDocument.AsObject().AsEnumerable())
+    @* Check if JSON document root is a JsonObject to enumerate keys *@
+    @if (Model.Config.JsonDocument != null && Model.Config.JsonDocument is System.Text.Json.Nodes.JsonObject jsonObj)
+    {
+        foreach (var k in jsonObj.AsEnumerable())
         {
             <option value="@k.Key">@k.Key</option>
         }
+    }
+    else
+    {
+        <option disabled>(Invalid or non-object JSON document)</option>
+    }
     </datalist>
     @if (Model.Key != null)
     {
