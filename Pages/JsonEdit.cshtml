@@ -55,7 +55,7 @@
             <h2>@Model.Key</h2>
             <form method="post" asp-page-handler="SaveNewValue">
                 <input type="hidden" name="newKey" value="@Model.Key" />
-                <textarea name="newValue">@(element.GetValue<string>())</textarea>
+                <textarea name="newValue" class="textarea-high">@(element.GetValue<string>())</textarea>
                 <button type="submit">Save</button>
             </form>
         }
@@ -64,7 +64,7 @@
             <h2>@Model.Key</h2>
             <form method="post" asp-page-handler="SaveNewValue">
                 <input type="text" name="newKey" value="@Model.Key" />
-                <textarea name="newValue"></textarea>
+                <textarea name="newValue" class="textarea-high"></textarea>
                 <button type="submit">Save</button>
             </form>
         }
