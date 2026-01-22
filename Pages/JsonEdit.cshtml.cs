@@ -72,6 +72,13 @@ namespace QuickJsonEdit.Pages
                         {
                             currentNode = arr[index];
                         }
+                        else if (index == arr.Count)
+                        {
+                            // Create new JsonObject at next array index if possible
+                            var newObj = new JsonObject();
+                            arr.Add(newObj);
+                            currentNode = newObj;
+                        }
                         else
                         {
                             return false;
@@ -101,6 +108,15 @@ namespace QuickJsonEdit.Pages
                     if (index >= 0 && index < parentArr.Count)
                     {
                         parentArr[index] = newValue;
+                        return true;
+                    }
+                    else if (index == parentArr.Count)
+                    {
+                        // When setting value on new array element
+                        var newObj = new JsonObject();
+                        parentArr.Add(newObj);
+                        // If lastPart is an index, no further nesting (no property), set the whole element
+                        newObj[lastPart] = newValue;
                         return true;
                     }
                 }
