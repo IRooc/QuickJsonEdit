@@ -5,7 +5,7 @@
 @{
 }
 <div class="edit-container">
-    <h1>
+    <h1 class="break-wrap">
         <a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))" aria-label="back" class="back-button" style="margin-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 4px;">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
@@ -18,53 +18,55 @@
         <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
         <div id="key-error" class="error-message">Please select a key from the list.</div>
     </form>
-<datalist id="keys">
-@{
-    var paths = new List<string>();
-    Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
-    if (paths.Count > 0)
-    {
-        foreach (var p in paths.OrderBy(p => p))
+    <datalist id="keys">
+    @{
+        var paths = new List<string>();
+        Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
+        if (paths.Count > 0)
         {
-            <option value="@p">@p</option>
+            foreach (var p in paths.OrderBy(p => p))
+            {
+                <option value="@p">@p</option>
+            }
+        }
+        else
+        {
+            <option disabled>(No editable string values found)</option>
         }
     }
-    else
+    </datalist>
+    @if (Model.Key != null)
     {
-        <option disabled>(No editable string values found)</option>
+        var element = Model.GetNodeAtPath(Model.Key);
+        if (element?.GetValueKind() == JsonValueKind.String)
+        {
+            <h2>@Model.Key</h2>
+            <form method="post" asp-page-handler="SaveNewValue">
+                <input type="hidden" name="newKey" value="@Model.Key" />
+                <textarea name="newValue">@(element.GetValue<string>())</textarea>
+                <button type="submit">Save</button>
+            </form>
+        }
+        else
+        {
+            <h2>@Model.Key</h2>
+            <form method="post" asp-page-handler="SaveNewValue">
+                <input type="text" name="newKey" value="@Model.Key" />
+                <textarea name="newValue"></textarea>
+                <button type="submit">Save</button>
+            </form>
+        }
     }
-}
-</datalist>
-@if (Model.Key != null)
-{
-    var element = Model.GetNodeAtPath(Model.Key);
-    if (element?.GetValueKind() == JsonValueKind.String)
-    {
-        <h2>@Model.Key</h2>
-        <form method="post" asp-page-handler="SaveNewValue">
-            <input type="hidden" name="newKey" value="@Model.Key" />
-            <textarea name="newValue">@(element.GetValue<string>())</textarea>
-            <button type="submit">Save</button>
-        </form>
-    }
-    else
-    {
-        <h2>@Model.Key</h2>
-        <form method="post" asp-page-handler="SaveNewValue">
-            <input type="text" name="newKey" value="@Model.Key" />
-            <textarea name="newValue"></textarea>
-            <button type="submit">Save</button>
-        </form>
-    }
-}
 
 
     <h2>Updated file:</h2>
     <form asp-page-handler="SaveFile" method="post">
         <textarea id="new-json-document">@(Model.Config.JsonDocument)</textarea>
-        <button type="submit">Save</button>
+        <div class="button-row">
+            <button type="submit">Save</button>
+            <button id="save-file" type="button" class="btn-secondary">Download</button>
+        </div>
     </form>
-    <button id="save-file">Download</button>
 
 </div>
 <div class="saved">

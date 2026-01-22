@@ -8,6 +8,12 @@
     --color-saved-border: black;
     --color-saved-bg: lightgoldenrodyellow;
     --color-h1-link: #155724; /* dark green */
+
+    --border-radius-sm: 5px;
+    --border-radius-md: 8px;
+    --padding-sm-vertical: 0.5em;
+    --padding-sm-horizontal: 1em;
+    --padding-md: 20px;
 }
 
 html {
@@ -31,8 +37,8 @@ button {
     background-color: var(--color-button-bg);
     color: white;
     border: 1px solid var(--color-button-border);
-    border-radius: 5px;
-    padding: 0.5em 1em;
+    border-radius: var(--border-radius-sm);
+    padding: var(--padding-sm-vertical) var(--padding-sm-horizontal);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -49,16 +55,28 @@ button:hover {
 }
 
 .container {
-    width: 800px;
+    width: 80vw;
+    max-width: 800px;
     margin: 20px auto;
     background-color: var(--color-container-bg);
     padding: 20px;
     border-radius: 8px;
+    word-wrap: break-word;
+}
+
+.break-wrap {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: none;
+    word-break: break-word;
+    white-space: normal;
 }
 
 input,
 textarea {
-    width: 100%;
+    width: calc(100% - 2 * var(--padding-sm-horizontal));
+    border-radius: var(--border-radius-sm);
+    padding: var(--padding-sm-vertical) var(--padding-sm-horizontal);
 }
 
 .saved {
@@ -74,7 +92,32 @@ textarea {
 
     .saved.show {
         opacity: 1;
-    }
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--color-button-bg);
+    border: 1px solid var(--color-button-bg);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-button-bg);
+    color: white;
+}
+
+.label-h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
 
 h1 a {
     color: var(--color-h1-link);

@@ -5,7 +5,7 @@
 }
 
 <form method="post" asp-page-handler="ListFiles">
-    <label>Enter Folder Path
+    <label class="label-h1">Enter Folder Path
         <input type="text" name="folder" required value="@Model.FolderPath" />
     </label>
     <button type="submit">List Files</button>
@@ -20,7 +20,11 @@
             <li>
             <form method="post" asp-page-handler="GotoEdit">
                 <input type="hidden" name="file" value="@file" />
-                <button type="submit">@System.IO.Path.GetFileName(file)</button>
+                <button type="submit">@System.IO.Path.GetFileName(file)
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-left: 4px;">
+                        <path fill-rule="evenodd" d="M4.646 14.354a.5.5 0 0 1 0-.708L10.293 8 4.646 2.354a.5.5 0 1 1 .708-.708l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708 0z"/>
+                    </svg>
+                </button>
             </form>
             </li>
         }
