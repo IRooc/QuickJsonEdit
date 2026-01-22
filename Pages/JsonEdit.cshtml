@@ -15,7 +15,19 @@
     </h1>
     <p>Tip: Select a key or nested path from the dropdown below. For array elements, use the notation <code>[index]</code> to specify the item index (zero-based). For example: <code>testarray/[1]/abd</code>.</p>
     <form id="key-form">
-        <input id="key-choice" type="text" list="keys" name="key" value="@Model.Key" />
+        <div class="custom-dropdown">
+            <input id="key-choice" type="text" name="key" autocomplete="off" value="@Model.Key" />
+            <div id="key-list" class="dropdown-list" tabindex="-1" aria-label="Select key">
+                @{
+                    var paths = new List<string>();
+                    Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
+                }
+                @foreach (var p in paths.OrderBy(p => p))
+                {
+                    <div class="dropdown-item" tabindex="0">@p</div>
+                }
+            </div>
+        </div>
         <div id="key-error" class="error-message">Please select a key from the list.</div>
     </form>
     <datalist id="keys">
