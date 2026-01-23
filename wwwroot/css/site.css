@@ -177,3 +177,28 @@ h1 a {
     color: white;
     outline: none;
 }
+
+.custom-dropdown input {
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 2.5em;
+}
+
+.custom-dropdown::after {
+    content: '';
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    width: 0.6em;
+    height: 0.6em;
+    border: solid #666;
+    border-width: 0 2px 2px 0;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+    transition: transform 0.2s ease;
+}
+
+.custom-dropdown:has(.dropdown-list.show)::after {
+    transform: translateY(-30%) rotate(-135deg);
+}
+

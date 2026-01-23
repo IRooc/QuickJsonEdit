@@ -17,7 +17,7 @@
     <form id="key-form">
         <input type="hidden" name="FileName" value="@Model.FileName" />
         <div class="custom-dropdown">
-            <input id="key-choice" type="text" name="key" autocomplete="off" value="@Model.Key" />
+            <input id="key-choice" type="text" name="key" autocomplete="off" value="@Model.Key" placeholder="Select or Enter new Json Path" />
             <div id="key-list" class="dropdown-list" tabindex="-1" aria-label="Select key">
                 @{
                     var paths = new List<string>();
