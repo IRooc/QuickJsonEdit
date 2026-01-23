@@ -67,9 +67,28 @@ namespace QuickJsonEdit.Pages
                     else
                     {
                         // Create new JsonObject if missing key
-                        var newObj = new JsonObject();
-                        obj[part] = newObj;
-                        currentNode = newObj;
+                        // Check if next part is an array index, if so, create array instead
+                        bool nextIsArray = false;
+                        if (i + 1 < parts.Length)
+                        {
+                            if (TryParseArrayIndex(parts[i+1], out _))
+                            {
+                                nextIsArray = true;
+                            }
+                        }
+
+                        if (nextIsArray)
+                        {
+                            var newArr = new JsonArray();
+                            obj[part] = newArr;
+                            currentNode = newArr;
+                        }
+                        else
+                        {
+                            var newObj = new JsonObject();
+                            obj[part] = newObj;
+                            currentNode = newObj;
+                        }
                     }
                 }
                 else if (currentNode is JsonArray arr)
