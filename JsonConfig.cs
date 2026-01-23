@@ -5,21 +5,26 @@ namespace QuickJsonEdit
 {
     public class JsonConfig
     {
-        public string JsonFilename {get; set;}
-        public JsonNode JsonDocument { get; set; }
+        private Dictionary<string, JsonNode> _openFiles = new Dictionary<string, JsonNode>();
 
-public void SetJson(string f)
+        public JsonNode GetJson(string f)
         {
-            JsonFilename = f;
+            if (!_openFiles.ContainsKey(f)) LoadJson(f);
+            return _openFiles[f];
+        }
+
+        public void LoadJson(string f, bool forceReload = false)
+        {
+            if (!forceReload && _openFiles.ContainsKey(f)) return;
+
             using var s = File.OpenRead(f);
             using var reader = new StreamReader(s);
             string fileBody = reader.ReadToEnd();
             try {
-                JsonDocument = JsonNode.Parse(fileBody ?? "{}")!;
+                _openFiles[f] = JsonNode.Parse(fileBody ?? "{}")!;
             } catch {
-                JsonDocument = JsonNode.Parse("{}")!;
+                _openFiles[f] = JsonNode.Parse("{}")!;
             }
-
         }
     }
 }

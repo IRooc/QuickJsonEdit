@@ -6,21 +6,22 @@
 }
 <div class="edit-container">
     <h1 class="break-wrap">
-        <a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.Config.JsonFilename))" aria-label="back" class="back-button" style="margin-right: 10px;">
+        <a asp-page="Index" asp-route-folderpath="@(System.IO.Path.GetDirectoryName(Model.FileName))" aria-label="back" class="back-button" style="margin-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 4px;">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
             </svg>
         </a>
-        @Model.Config.JsonFilename
+        @Model.FileName
     </h1>
     <p>Tip: Select a key or nested path from the dropdown below. For array elements, use the notation <code>[index]</code> to specify the item index (zero-based). For example: <code>testarray/[1]/abd</code>.</p>
     <form id="key-form">
+        <input type="hidden" name="FileName" value="@Model.FileName" />
         <div class="custom-dropdown">
             <input id="key-choice" type="text" name="key" autocomplete="off" value="@Model.Key" />
             <div id="key-list" class="dropdown-list" tabindex="-1" aria-label="Select key">
                 @{
                     var paths = new List<string>();
-                    Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
+                    Model.CollectEditablePaths(Model.Config.GetJson(Model.FileName), "", paths);
                 }
                 @foreach (var p in paths.OrderBy(p => p))
                 {
@@ -32,11 +33,11 @@
     </form>
     <datalist id="keys">
     @{
-        var paths = new List<string>();
-        Model.CollectEditablePaths(Model.Config.JsonDocument, "", paths);
-        if (paths.Count > 0)
+        var paths2 = new List<string>();
+        Model.CollectEditablePaths(Model.Config.GetJson(Model.FileName), "", paths2);
+        if (paths2.Count > 0)
         {
-            foreach (var p in paths.OrderBy(p => p))
+            foreach (var p in paths2.OrderBy(p => p))
             {
                 <option value="@p">@p</option>
             }
@@ -54,6 +55,7 @@
         {
             <h2>@Model.Key</h2>
             <form method="post" asp-page-handler="SaveNewValue">
+                <input type="hidden" name="FileName" value="@Model.FileName" />
                 <input type="hidden" name="newKey" value="@Model.Key" />
                 <textarea name="newValue" class="textarea-high">@(element.GetValue<string>())</textarea>
                 <button type="submit">Save</button>
@@ -63,6 +65,7 @@
         {
             <h2>@Model.Key</h2>
             <form method="post" asp-page-handler="SaveNewValue">
+                <input type="hidden" name="FileName" value="@Model.FileName" />
                 <input type="text" name="newKey" value="@Model.Key" />
                 <textarea name="newValue" class="textarea-high"></textarea>
                 <button type="submit">Save</button>
@@ -73,7 +76,8 @@
 
     <h2>Updated file:</h2>
     <form asp-page-handler="SaveFile" method="post">
-        <textarea id="new-json-document" class="textarea-high">@(Model.Config.JsonDocument)</textarea>
+        <input type="hidden" name="FileName" value="@Model.FileName" />
+        <textarea id="new-json-document" class="textarea-high">@(Model.Config.GetJson(Model.FileName))</textarea>
         <div class="button-row">
             <button type="submit">Save</button>
             <button id="save-file" type="button" class="btn-secondary">Download</button>

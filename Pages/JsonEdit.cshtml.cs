@@ -10,6 +10,10 @@ namespace QuickJsonEdit.Pages
     {
         [BindProperty(SupportsGet = true)]
         public string? Key { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FileName { get; set; }
+
         public JsonConfig Config { get; }
         
         public JsonEditModel(JsonConfig config)
@@ -19,6 +23,10 @@ namespace QuickJsonEdit.Pages
 
         public void OnGet()
         {
+            if (!string.IsNullOrEmpty(FileName))
+            {
+                Config.LoadJson(FileName);
+            }
         }
 
         public IActionResult OnPostSaveNewValue()
@@ -30,22 +38,22 @@ namespace QuickJsonEdit.Pages
             if (!updated)
             {
                 // fallback update root as before
-                Config.JsonDocument[k] = v.ToString();
+                Config.GetJson(FileName)[k] = v.ToString();
             }
-            return RedirectToPage(new { Key = k, Saved = true });
+            return RedirectToPage(new { Key = k, Saved = true, FileName = FileName });
         }
 
         public IActionResult OnPostSaveFile()
         {
-            System.IO.File.WriteAllText(Config.JsonFilename, Config.JsonDocument.ToString());
-            return RedirectToPage(new { Saved = true });
+            System.IO.File.WriteAllText(FileName, Config.GetJson(FileName).ToString());
+            return RedirectToPage(new { Saved = true, FileName = FileName });
         }
 
 
         public bool TryUpdateValueAtPath(string path, string newValue)
         {
             var parts = SplitPath(path);
-            JsonNode? currentNode = Config.JsonDocument;
+            JsonNode? currentNode = Config.GetJson(FileName);
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 var part = parts[i];
@@ -187,7 +195,7 @@ namespace QuickJsonEdit.Pages
         public JsonNode? GetNodeAtPath(string path)
         {
             var parts = SplitPath(path);
-            JsonNode? currentNode = Config.JsonDocument;
+            JsonNode? currentNode = Config.GetJson(FileName);
             foreach (var part in parts)
             {
                 if (string.IsNullOrEmpty(part)) continue;

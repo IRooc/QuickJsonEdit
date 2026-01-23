@@ -55,7 +55,7 @@ public class IndexModel : PageModel
             ModelState.AddModelError("file", "Only .json files are supported.");
             return Page();
         }
-        Config.SetJson(f);
-        return RedirectToPage("JsonEdit");
+        Config.LoadJson(f, forceReload: true);
+        return RedirectToPage("JsonEdit", new { FileName = f });
     }
 }
