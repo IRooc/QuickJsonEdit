@@ -4,10 +4,9 @@
     ViewData["Title"] = "Home page";
 }
 
+<h1>Enter Folder Path</h1>
 <form method="post" asp-page-handler="ListFiles">
-    <label class="label-h1">Enter Folder Path
         <input type="text" name="folder" required value="@Model.FolderPath" />
-    </label>
     <button type="submit">List Files</button>
 </form>
 
